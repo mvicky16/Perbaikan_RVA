@@ -14,6 +14,7 @@ public class CameraOrbit : MonoBehaviour
     public float ScrollSensitvity = 2f;
     public float OrbitDampening = 10f;
     public float ScrollDampening = 6f;
+	public float speed = 10;
 	
 	public bool CameraDisabled = false;
  
@@ -29,6 +30,17 @@ public class CameraOrbit : MonoBehaviour
         if (!CameraDisabled)
         {
             //Rotation of the Camera based on Mouse Coordinates
+			if (Input.GetAxis("Mouse ScrollWheel") != 0f)
+            {
+                float ScrollAmount = Input.GetAxis("Mouse ScrollWheel") * ScrollSensitvity;
+ 
+                ScrollAmount *= (this._CameraDistance * 0.3f);
+ 
+                this._CameraDistance += ScrollAmount * -1f;
+ 
+                this._CameraDistance = Mathf.Clamp(this._CameraDistance, 1.5f, 100f);
+            }
+			
 			if (Input.GetMouseButton(0)){
 				if (Input.GetAxis("Mouse X") != 0 || Input.GetAxis("Mouse Y") != 0)
 				{
@@ -43,16 +55,7 @@ public class CameraOrbit : MonoBehaviour
 				}
 			}
             //Zooming Input from our Mouse Scroll Wheel
-            if (Input.GetAxis("Mouse ScrollWheel") != 0f)
-            {
-                float ScrollAmount = Input.GetAxis("Mouse ScrollWheel") * ScrollSensitvity;
- 
-                ScrollAmount *= (this._CameraDistance * 0.3f);
- 
-                this._CameraDistance += ScrollAmount * -1f;
- 
-                this._CameraDistance = Mathf.Clamp(this._CameraDistance, 1.5f, 100f);
-            }
+            
         }
  
         //Actual Camera Rig Transformations
